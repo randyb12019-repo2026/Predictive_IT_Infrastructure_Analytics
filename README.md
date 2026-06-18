@@ -388,16 +388,11 @@ La combinación de múltiples métricas ofrece mejores resultados que el anális
 
 ### Conclusiones
 
-* Las métricas de infraestructura contienen información útil para identificar estados anómalos.
-* CPU, memoria y temperatura son las variables más relevantes.
-* Los modelos predictivos permiten detectar patrones asociados a incidencias.
+***
 
 ### Recomendaciones
 
-* Incorporar datos reales de monitorización.
-* Ampliar el histórico temporal.
-* Integrar el modelo con herramientas de observabilidad.
-* Implementar alertas predictivas.
+***
 
 ---
 
