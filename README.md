@@ -440,33 +440,80 @@ La combinación de múltiples métricas ofrece mejores resultados que el anális
 Predictive-IT-Infrastructure-Analytics/
 │
 ├── app/
-│   ├── streamlit_app.py
+│   └── streamlit_app.py                  # Aplicación web Streamlit
+│
 ├── dashboard/
-│   ├── dashboard.py
+│   ├── __init__.py
+│   └── dashboard.py                      # Orquestador del dashboard
+│
 ├── data/
 │   ├── raw/
+│   │   ├── Big_data_dataset.csv          # Dataset original
+│   │   └── informacion.md
 │   ├── processed/
-│   ├── final/
-├── modelos/
-│   ├── modelo_prediccion.pkl
+│   │   ├── Big_data_dataset_transformado.csv  # Dataset transformado
+│   │   └── informacion.md
+│   └── final/
+│       ├── comparacion_modelos.csv        # Comparación de modelos
+│       ├── incidencias_detectadas_random_forest.csv
+│       ├── predicciones_random_forest.csv # Predicciones del modelo
+│       └── informacion.md
+│
+├── models/
+│   └── modelo_prediccion.pkl             # Modelo entrenado (Pickle)
+│
 ├── notebooks/
 │   ├── 01_exploracion_y_limpieza_dataset.ipynb
 │   ├── 02_transformacion_y_feature_engineering.ipynb
 │   ├── 03_analisis_exploratorio_EDA.ipynb
 │   ├── 04_modelo_predictivo.ipynb
-│   ├── 05_exportacion_resultados.ipynb
-├── reports/
-│   ├── graphics/
-│   ├── conclusiones.md
-├── requirements.txt
+│   └── 05_exportacion_resultados.ipynb
 │
-└── README.md
+├── reports/
+│   ├── graphics/                         # Gráficos generados (PNG)
+│   │   # Nomenclatura: Nb{notebook}_{nº_figura}_{descripción}.png
+│   │   # Ej: Nb03_06_cpu_por_estado.png = Notebook 03, figura 6, "CPU por estado"
+│   │   ├── Nb01_11_distribuciones_variables_numericas.png
+│   │   ├── Nb01_12_matriz_correlacion.png
+│   │   ├── Nb01_13_boxplots_valores_extremos.png
+│   │   ├── Nb03_04_distribucion_estado_sistema.png
+│   │   ├── Nb03_05_correlacion_con_status.png
+│   │   ├── Nb03_06_cpu_por_estado.png
+│   │   ├── Nb03_07_memoria_por_estado.png
+│   │   ├── Nb03_08_temperatura_por_estado.png
+│   │   ├── Nb03_09_cpu_level_vs_status.png
+│   │   ├── Nb03_10_temperature_level_vs_status.png
+│   │   ├── Nb03_11_pressure_level_vs_status.png
+│   │   ├── Nb03_12_system_pressure_score_por_estado.png
+│   │   └── Nb03_13_matriz_correlacion_avanzada.png
+│   └── conclusiones.md
+│
+├── src/                                  # Módulos fuente Python
+│   ├── __init__.py
+│   ├── cabecera.py                       # Cabecera de la app
+│   ├── comparacion_modelos.py            # Comparación de modelos
+│   ├── conclusiones.py                   # Textos de conclusiones
+│   ├── datos.py                          # Carga y validación de datos
+│   ├── detectores.py                     # Detección de columnas
+│   ├── estado_infraestructura.py         # Estado de infraestructura
+│   ├── estilos.py                        # Estilos CSS personalizados
+│   ├── generar_presentacion.py           # Sidebar de exportación PDF
+│   ├── metricas.py                       # Métricas del modelo
+│   ├── plantilla.py                      # Configuración de página
+│   ├── predicciones.py                   # Vista de predicciones
+│   ├── presentacion.py                   # Generación de PDF
+│   ├── resumen_ejecutivo.py              # KPIs y resumen
+│   └── sidebar.py                        # Navegación lateral
+│
+├── LICENCE.md                           # Licencia MIT
+├── README.md                            # Este archivo
+└── requirements.txt                     # Dependencias del proyecto
 ```
 ---
 ## 📚 Correspondencia entre Fases y Notebooks
 
-| Fase    | Descripción                                   | Notebook |
-|----------|----------------------------------------------|----------|
+| Fase    | Descripción                                   | Notebook                                           |
+|---------|--------------------------------------------c--|----------------------------------------------------|
 | Fase 1  | Comprensión del Negocio                       | `01_exploracion_y_limpieza_dataset.ipynb` y README |
 | Fase 2  | Comprensión de los Datos                      | `01_exploracion_y_limpieza_dataset.ipynb` |
 | Fase 3  | Exploración Inicial de los Datos              | `01_exploracion_y_limpieza_dataset.ipynb` |
