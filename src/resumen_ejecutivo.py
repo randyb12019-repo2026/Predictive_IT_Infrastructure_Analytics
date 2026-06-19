@@ -139,6 +139,20 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     with col_b:
         st.subheader("🚨 Incidentes detectados por el modelo")
         if len(incidentes_df) > 0:
-            st.dataframe(incidentes_df.head(10), use_container_width=True)
+            cols_mostrar = ["cpu_utilization", "memory_usage", "temperature", "network_latency"]
+            cols_reales = ["Valor_Real", "valor_real", "Real", "real", "y_test", "y_real"]
+            col_real = next((c for c in predicciones.columns if c in cols_reales), None)
+            if col_real and col_pred:
+                cols_mostrar = cols_mostrar + [col_real, col_pred]
+                cols_mostrar = [c for c in cols_mostrar if c in incidentes_df.columns]
+                if cols_mostrar:
+                    df_vista = incidentes_df[cols_mostrar].head(10).copy()
+                    df_vista.columns = ["CPU (%)", "Memoria (%)", "Temperatura (°C)", "Latencia (ms)",
+                                        "Estado Real", "Predicción"]
+                    df_vista["Estado Real"] = df_vista["Estado Real"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
+                    df_vista["Predicción"] = df_vista["Predicción"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
+                    st.dataframe(df_vista, use_container_width=True)
+            else:
+                st.dataframe(incidentes_df.head(10), use_container_width=True)
         else:
             st.success("No se detectaron incidencias.")
