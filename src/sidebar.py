@@ -22,6 +22,7 @@ def sidebar(datos_infra=None):
     if datos_infra is not None:
         st.sidebar.divider()
         st.sidebar.markdown("### 🎯 Segmentar datos")
+        st.sidebar.caption("Aplica a: Resumen Ejecutivo y Estado de Infraestructura")
         segment_cols = ["status_label", "cpu_level", "memory_level",
                         "latency_level", "temperature_level", "pressure_level"]
         segment_cols = [c for c in segment_cols if c in datos_infra.columns]

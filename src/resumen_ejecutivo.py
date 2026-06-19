@@ -1,9 +1,12 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 
 def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_modelo,
-                      cpu_media, memoria_media, temperatura_media, latencia_media):
+                      cpu_media, memoria_media, temperatura_media, latencia_media,
+                      cpu_nivel=None, memoria_nivel=None, temperatura_nivel=None,
+                      latencia_nivel=None):
     if seccion != "Resumen Ejecutivo":
         return
 
@@ -40,6 +43,12 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     col3.metric("🚨 Incidentes Detectados", incidentes)
     col4.metric("📉 % de Incidentes", f"{porcentaje_incidentes}%")
 
+    niveles_emoji = {
+        "Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
+        "Warning": "⚠️ Advertencia", "Critical": "🔴 Crítico",
+        "Normal": "✅ Normal", "Incident": "🚨 Incidente",
+    }
+
     col5, col6, col7, col8 = st.columns(4)
     col5.metric("🤖 Mejor Modelo", nombre_modelo)
     col6.metric("📈 F1-Score", f1_score)
@@ -49,6 +58,40 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     col9, col10 = st.columns(2)
     col9.metric("🔥 Temperatura Media", temperatura_media)
     col10.metric("🌐 Latencia Media", latencia_media)
+
+    niveles_orden = {"Low": 0, "Medium": 1, "High": 2, "Warning": 2, "Critical": 3, "Normal": 0, "Incident": 3}
+    niveles_etiqueta = {"Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
+                        "Warning": "⚠️ Advertencia", "Critical": "🔴 Crítico",
+                        "Normal": "✅ Normal", "Incident": "🚨 Incidente"}
+    niveles_por_kpi = [
+        ("CPU", cpu_nivel),
+        ("Memoria", memoria_nivel),
+        ("Temperatura", temperatura_nivel),
+        ("Latencia", latencia_nivel),
+    ]
+    niveles_por_kpi.sort(key=lambda x: niveles_orden.get(x[1], -1) if x[1] else -1, reverse=True)
+    cols_n = st.columns(4)
+    for i, (nombre, nivel) in enumerate(niveles_por_kpi):
+        if nivel:
+            cols_n[i].markdown(f"**{nombre}**: {niveles_etiqueta.get(nivel, nivel)}")
+
+    df_barras = pd.DataFrame([
+        {"Métrica": "CPU", "Valor": cpu_media, "Nivel": cpu_nivel},
+        {"Métrica": "Memoria", "Valor": memoria_media, "Nivel": memoria_nivel},
+        {"Métrica": "Temperatura", "Valor": temperatura_media, "Nivel": temperatura_nivel},
+        {"Métrica": "Latencia", "Valor": latencia_media, "Nivel": latencia_nivel},
+    ])
+    color_map = {"Low": "#22c55e", "Medium": "#eab308", "High": "#f97316",
+                 "Warning": "#f97316", "Critical": "#ef4444",
+                 "Normal": "#22c55e", "Incident": "#ef4444"}
+    df_barras["Color"] = df_barras["Nivel"].map(color_map)
+    fig = px.bar(df_barras, x="Métrica", y="Valor", color="Nivel",
+                 color_discrete_map=color_map, text_auto=".1f",
+                 title="📊 Métricas del sistema por nivel de alerta")
+    fig.update_layout(template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827",
+                      showlegend=True, xaxis_title="", yaxis_title="Valor promedio")
+    fig.update_traces(textposition="outside", marker_line_width=0)
+    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("""
     <style>

@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import plotly.express as px
 
 
@@ -89,3 +90,66 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     for col, desc in leyenda.items():
         if col in metricas_disponibles:
             st.markdown(f"- **{col}**: {desc}")
+
+    st.markdown("### 🚦 Umbrales de alerta por nivel")
+    umbrales_map = {
+        "cpu_utilization": "cpu_level",
+        "memory_usage": "memory_level",
+        "temperature": "temperature_level",
+        "network_latency": "latency_level",
+        "system_pressure_score": "pressure_level",
+    }
+    filas_umbrales = []
+    for metrica, nivel_col in umbrales_map.items():
+        if metrica in datos_infra.columns and nivel_col in datos_infra.columns:
+            grupos = datos_infra.groupby(nivel_col)[metrica].agg(["min", "max", "mean", "count"])
+            for nivel, row in grupos.iterrows():
+                filas_umbrales.append({
+                    "Métrica": metrica.replace("_", " ").title(),
+                    "Nivel": str(nivel),
+                    "Rango": f"{row['min']:.1f} - {row['max']:.1f}",
+                    "Promedio": f"{row['mean']:.1f}",
+                    "Registros": int(row["count"]),
+                })
+    if filas_umbrales:
+        cols_orden = ["Métrica", "Nivel", "Rango", "Promedio", "Registros"]
+        df_umbrales = pd.DataFrame(filas_umbrales)[cols_orden]
+        st.dataframe(df_umbrales, use_container_width=True)
+        nombres_nivel = {"Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
+                         "Warning": "⚠️ Advertencia", "Critical": "🔴 Crítico",
+                         "Normal": "✅ Normal", "Incident": "🚨 Incidente"}
+        resumen = df_umbrales.groupby("Métrica").apply(
+            lambda g: "\n".join(
+                f"{nombres_nivel.get(r['Nivel'], r['Nivel'])}: {r['Rango']}"
+                for _, r in g.iterrows()
+            )
+        )
+        for metrica, texto in resumen.items():
+            st.markdown(f"**{metrica}**")
+            for linea in texto.split("\n"):
+                st.markdown(f"- {linea}")
+
+    st.markdown("### 🔗 Matriz de correlaciones")
+    corr_cols = [c for c in metricas_disponibles
+                 if not c.endswith("_level") and not c.endswith("_norm")
+                 and c != "status" and c != "status_label"]
+    if len(corr_cols) > 1:
+        corr_matrix = datos_infra[corr_cols].corr()
+        fig_corr = px.imshow(
+            corr_matrix, text_auto=".2f", color_continuous_scale="RdBu_r",
+            title="Correlación entre variables del sistema",
+            aspect="auto", width=700, height=600,
+        )
+        fig_corr.update_layout(
+            template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827",
+        )
+        st.plotly_chart(fig_corr, use_container_width=True)
+        st.markdown("""
+        <div style="background:#0f172a; padding:10px 15px; border-radius:8px; font-size:13px; border-left:3px solid #2E86C1;">
+        <b>🔍 Cómo leerlo:</b> Cada celda muestra la correlación entre dos variables.
+        <b>1.0</b> = correlación perfecta (suben juntas).
+        <b>-1.0</b> = correlación inversa (una sube, otra baja).
+        <b>0.0</b> = sin relación. Colores <span style="color:#d73027;">rojos</span> = correlación positiva,
+        <span style="color:#4575b4;">azules</span> = correlación negativa.
+        </div>
+        """, unsafe_allow_html=True)
