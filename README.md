@@ -605,7 +605,7 @@ Predictive-IT-Infrastructure-Analytics/
 ## 📚 Correspondencia entre Fases y Notebooks
 
 | Fase    | Descripción                                   | Notebook                                           |
-|---------|--------------------------------------------c--|----------------------------------------------------|
+|---------|--------------------------------------------|----------------------------------------------------|
 | Fase 1  | Comprensión del Negocio                       | `01_exploracion_y_limpieza_dataset.ipynb` y README |
 | Fase 2  | Comprensión de los Datos                      | `01_exploracion_y_limpieza_dataset.ipynb` |
 | Fase 3  | Exploración Inicial de los Datos              | `01_exploracion_y_limpieza_dataset.ipynb` |
