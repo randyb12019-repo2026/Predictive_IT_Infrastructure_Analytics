@@ -1,5 +1,6 @@
 """Módulo que importa todas las funciones desde src/ para mantener
 la interfaz pública en dashboard.dashboard."""
+import streamlit as st
 from src.estilos import estilos
 from src.datos import carga_datos, validar_datos
 from src.detectores import detectar_columna_prediccion, detectar_columna_modelo, detectar_columna_f1
@@ -63,6 +64,16 @@ def mostrar_dashboard():
     comparacion_modelos(seccion, comparacion, col_modelo, col_f1)
     mostrar_predicciones(seccion, predicciones, col_pred)
     conclusiones(seccion)
+
+    st.markdown("---")
+    st.markdown(
+        "<div style='text-align:center; font-size:13px; color:#6b7280;' "
+        "title='Este proyecto se distribuye bajo licencia MIT. Consulte el archivo LICENCE.md para más detalles.'>"
+        "<b>Predictive IT Infrastructure Analytics</b> | "
+        "Licencia MIT ⓘ | Desarrollado por Ing. Randy Bonucci Martin"
+        "</div>",
+        unsafe_allow_html=True,
+    )
 
 
 __all__ = ["mostrar_dashboard"]

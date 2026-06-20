@@ -44,10 +44,10 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     )
     fig.update_traces(texttemplate="%{y}", textposition="outside")
     fig.update_layout(template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     st.markdown("### 📊 Estadísticas descriptivas")
-    st.dataframe(datos_infra[metricas_analisis].describe().T, use_container_width=True)
+    st.dataframe(datos_infra[metricas_analisis].describe().T, width='stretch')
 
     st.markdown("### 📖 Significado de las estadísticas")
     st.markdown("""
@@ -148,7 +148,7 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
         fig_corr.update_layout(
             template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827",
         )
-        st.plotly_chart(fig_corr, use_container_width=True)
+        st.plotly_chart(fig_corr, width='stretch')
         st.markdown("""
         <div style="background:#0f172a; padding:10px 15px; border-radius:8px; font-size:13px; border-left:3px solid #2E86C1;">
         <b>🔍 Cómo leerlo:</b> Cada celda muestra la correlación entre dos variables.

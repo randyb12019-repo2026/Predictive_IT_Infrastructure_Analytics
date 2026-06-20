@@ -11,7 +11,7 @@ def predicciones(seccion, predicciones, col_pred):
 
     if not col_pred:
         st.warning("No se encontró una columna clara de predicción.")
-        st.dataframe(predicciones, use_container_width=True)
+        st.dataframe(predicciones, width='stretch')
         return
 
     conteo = predicciones[col_pred].value_counts().reset_index()
@@ -23,7 +23,7 @@ def predicciones(seccion, predicciones, col_pred):
         st.subheader("Distribución de estados predichos")
         fig = px.pie(conteo, names="Estado", values="Cantidad", hole=0.45, title="Normal vs Incidente")
         fig.update_layout(template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col2:
         st.subheader("Resumen de predicciones")
@@ -45,7 +45,7 @@ def predicciones(seccion, predicciones, col_pred):
                         title="Matriz de Confusión - Valor Real vs Predicción",
                         labels=dict(color="Cantidad"))
         fig.update_layout(template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         aciertos = (predicciones[col_real] == predicciones[col_pred]).sum()
         errores = len(predicciones) - aciertos
@@ -64,7 +64,7 @@ def predicciones(seccion, predicciones, col_pred):
                       else "❌ Incorrecto",
             axis=1
         )
-    st.dataframe(df_vista, use_container_width=True)
+    st.dataframe(df_vista, width='stretch')
 
     if col_real:
         vn = ((predicciones[col_real] == 0) & (predicciones[col_pred] == 0)).sum()
@@ -79,5 +79,5 @@ def predicciones(seccion, predicciones, col_pred):
         </div>
         """, unsafe_allow_html=True)
         st.caption("VN = Verdadero Negativo (predijo Normal y era Normal) · VP = Verdadero Positivo (predijo Incidente y era Incidente) · FN = Falso Negativo (predijo Normal pero era Incidente) · FP = Falso Positivo (predijo Incidente pero era Normal)")
-        st.markdown("En total hay **1999 predicciones correctas** (VN + VP) y **1 incorrecta** (FN). "
-                    "Eso significa que el modelo acertó el 99.95% de las veces.") 
+        st.markdown(f"En total hay **{aciertos} predicciones correctas** (VN + VP) y **{errores} incorrecta(s)** (FN). "
+                    f"Eso significa que el modelo acertó el **{round(aciertos / len(predicciones) * 100, 2)}%** de las veces.") 
