@@ -446,9 +446,9 @@ Predictive-IT-Infrastructure-Analytics/
 │   ├── processed/
 ├── modelos/
 ├── notebooks/
-│   ├── 01_exploracion_dataset.ipynb
-│   ├── 02_data_limpieza_transformacion.ipynb
-│   ├── 03_insights_analisis.ipynb
+│   ├── 01_exploracion_y_limpieza_dataset.ipynb
+│   ├── 02_transformacion_y_feature_engineering.ipynb
+│   ├── 03_analisis_exploratorio.ipynb
 │   ├── 04_modelo_predictivo.ipynb
 │   ├── 05_exportacion_resultados.ipynb
 │
