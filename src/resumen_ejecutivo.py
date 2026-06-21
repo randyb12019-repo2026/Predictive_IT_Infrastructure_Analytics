@@ -133,6 +133,7 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
         """, unsafe_allow_html=True)
 
     st.subheader("🤖 Comparación de modelos")
+    st.dataframe(comparacion, width='stretch')
     st.markdown("""
     <style>
     .info-box {
@@ -140,8 +141,6 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
         border-left:3px solid #2E86C1; margin:8px 0;
     }
     </style>
-    """, unsafe_allow_html=True)
-    st.markdown("""
     <div class="info-box">
     <b>📖 Significado de las métricas</b><br>
     • <b>Accuracy</b> — Porcentaje total de aciertos del modelo.<br>
@@ -151,22 +150,8 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     porque equilibra ambas. Un F1 cercano a <b>1.0</b> indica detección precisa sin falsas alarmas.
     </div>
     """, unsafe_allow_html=True)
-    st.dataframe(comparacion, width='stretch')
 
     st.subheader("🚨 Incidentes detectados por el modelo")
-    st.markdown("""
-    <div class="info-box">
-    <b>🔍 Cómo leer esta tabla</b><br>
-    Muestra los registros que el modelo clasificó como posible incidente,
-    junto con las métricas del sistema en ese momento.<br><br>
-    • <b>CPU / Memoria / Temperatura / Latencia</b> — Valores del sistema en el instante evaluado.<br>
-    • <b>Estado Real</b> — Lo que realmente ocurrió (etiqueta real del dataset).<br>
-    • <b>Predicción</b> — Lo que el modelo pronosticó.<br><br>
-    Presta atención cuando <b>Estado Real</b> y <b>Predicción</b> no coinciden:
-    ahí hay falsos positivos (alarma sin incidente real) o falsos negativos
-    (incidente no detectado).
-    </div>
-    """, unsafe_allow_html=True)
     if len(incidentes_df) > 0:
         cols_mostrar = ["cpu_utilization", "memory_usage", "temperature", "network_latency"]
         cols_reales = ["Valor_Real", "valor_real", "Real", "real", "y_test", "y_real"]
@@ -181,6 +166,17 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
                 df_vista["Estado Real"] = df_vista["Estado Real"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
                 df_vista["Predicción"] = df_vista["Predicción"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
                 st.dataframe(df_vista, width='stretch')
+                st.markdown("""
+                <div class="info-box">
+                <b>🔍 Cómo leer esta tabla</b><br>
+                • <b>CPU / Memoria / Temperatura / Latencia</b> — Valores del sistema en el instante evaluado.<br>
+                • <b>Estado Real</b> — Lo que realmente ocurrió (etiqueta real del dataset).<br>
+                • <b>Predicción</b> — Lo que el modelo pronosticó.<br><br>
+                Presta atención cuando <b>Estado Real</b> y <b>Predicción</b> no coinciden:
+                ahí hay falsos positivos (alarma sin incidente real) o falsos negativos
+                (incidente no detectado).
+                </div>
+                """, unsafe_allow_html=True)
         else:
             st.dataframe(incidentes_df.head(10), width='stretch')
     else:
