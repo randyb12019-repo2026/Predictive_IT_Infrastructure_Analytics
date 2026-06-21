@@ -49,6 +49,8 @@ streamlit run app/streamlit_app.py
 
 # 8. (Opcional) Ejecutar tests
 .venv\Scripts\python.exe -m pytest tests/ -v
+
+> **Nota:** GitHub rechaza archivos `.pkl` por seguridad, por lo que el modelo `models/modelo_prediccion.pkl` está excluido del repositorio (`.gitignore`). Debes generar este archivo ejecutando los notebooks localmente (paso 6). Sin este archivo, el dashboard mostrará un mensaje indicando que no se encontró el modelo, pero el resto de la aplicación funciona con normalidad.
 ```
 
 ## Con Docker
