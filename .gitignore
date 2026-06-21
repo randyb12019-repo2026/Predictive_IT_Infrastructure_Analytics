@@ -9,15 +9,16 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Datos pesados o privados
-data/raw/*
-data/processed/*
-data/final/*
-
 # Mantener carpetas data
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/final/.gitkeep
+
+# Datos pesados o privados
+data/raw/*
+data/processed/*
+data/final/*
+data/raw/archive.zip
 
 # Modelos
 #models/*.pkl
@@ -30,16 +31,8 @@ data/raw/*
 data/processed/*
 data/final/*
 
-# Mantener carpetas
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/final/.gitkeep
-
 # Archivos de configuración
 src/*
 
 # Reportes
 reports/*
-
-# README.md (temporal)
-#README.md

@@ -459,20 +459,20 @@ Predictive-IT-Infrastructure-Analytics/
 ---
 ## 📚 Correspondencia entre Fases y Notebooks
 
-| Fase    | Descripción                          | Notebook                                                    |
-| ------- | ------------------------------------ | ----------------------------------------------------------- |
-| Fase 1  | Comprensión del Negocio              | Documentación del proyecto y README                         |
-| Fase 2  | Comprensión de los Datos             | `01_exploracion_dataset.ipynb`                              |
-| Fase 3  | Limpieza de Datos                    | `02_data_limpieza_transformacion.ipynb`                     |
-| Fase 4  | Transformación de Datos              | `02_data_limpieza_transformacion.ipynb`                     |
-| Fase 5  | Ingeniería de Características        | `02_data_limpieza_transformacion.ipynb`                     |
-| Fase 6  | Análisis Exploratorio de Datos (EDA) | `03_insights_analisis.ipynb`                                |
-| Fase 7  | Preparación para Machine Learning    | `04_modelo_predictivo.ipynb`                                |
-| Fase 8  | Modelado Predictivo                  | `04_modelo_predictivo.ipynb`                                |
-| Fase 9  | Evaluación de Modelos                | `04_modelo_predictivo.ipynb`                                |
-| Fase 10 | Interpretación de Resultados         | `04_modelo_predictivo.ipynb`                                |
-| Fase 11 | Insights de Negocio                  | `03_insights_analisis.ipynb` y `04_modelo_predictivo.ipynb` |
-| Fase 12 | Conclusiones y Recomendaciones       | `05_exportacion_resultados.ipynb` y README                  |
+| Fase    | Descripción                          | Notebook                                                        |
+| ------- | ------------------------------------ | ----------------------------------------------------------------|
+| Fase 1  | Comprensión del Negocio              | `01_exploracion_dataset.ipynb`  y README                        |
+| Fase 2  | Comprensión de los Datos             | `01_exploracion_dataset.ipynb`                                  |
+| Fase 3  | Limpieza de Datos                    | `02_data_limpieza_transformacion.ipynb`                         |
+| Fase 4  | Transformación de Datos              | `02_data_limpieza_transformacion.ipynb`                         |
+| Fase 5  | Ingeniería de Características        | `02_data_limpieza_transformacion.ipynb`                         |
+| Fase 6  | Análisis Exploratorio de Datos (EDA) | `03_analisis_exploratorio.ipynb`                                |
+| Fase 7  | Preparación para Machine Learning    | `04_modelo_predictivo.ipynb`                                    |
+| Fase 8  | Modelado Predictivo                  | `04_modelo_predictivo.ipynb`                                    |
+| Fase 9  | Evaluación de Modelos                | `04_modelo_predictivo.ipynb`                                    |
+| Fase 10 | Interpretación de Resultados         | `04_modelo_predictivo.ipynb`                                    |
+| Fase 11 | Insights de Negocio                  | `03_analisis_exploratorio.ipynb` y `04_modelo_predictivo.ipynb` |
+| Fase 12 | Conclusiones y Recomendaciones       | `05_exportacion_resultados.ipynb` y README                      |
 
 ---
 
