@@ -57,9 +57,12 @@ def mostrar_dashboard():
     metricas_disponibles = obtener_metricas(datos_infra_filt, metricas_preferidas)
     cabecera()
 
+    total_datos = len(datos_infra) if datos_infra is not None else None
+    total_incidentes_reales = int((datos_infra["status"] == 1).sum()) if datos_infra is not None and "status" in datos_infra.columns else None
     resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_modelo,
                       cpu_media, memoria_media, temperatura_media, latencia_media,
-                      cpu_nivel, memoria_nivel, temperatura_nivel, latencia_nivel)
+                      cpu_nivel, memoria_nivel, temperatura_nivel, latencia_nivel,
+                      total_datos=total_datos, total_incidentes_reales=total_incidentes_reales)
     estado_infraestructura(seccion, datos_infra_filt, metricas_disponibles)
     comparacion_modelos(seccion, comparacion, col_modelo, col_f1)
     mostrar_predicciones(seccion, predicciones, col_pred)
