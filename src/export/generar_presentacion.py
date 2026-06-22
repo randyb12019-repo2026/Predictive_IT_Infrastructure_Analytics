@@ -2,7 +2,7 @@
 Sidebar para exportar presentacion PDF desde Streamlit.
 """
 import streamlit as st
-from src.presentacion import generar_presentacion as generar_pdf
+from src.export.presentacion import generar_presentacion as generar_pdf
 
 
 def sidebar_presentacion():
@@ -21,3 +21,4 @@ def sidebar_presentacion():
                 st.success("✅ Presentación lista para descargar")
             except Exception as e:
                 st.error(f"Error: {e}")
+
