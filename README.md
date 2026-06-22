@@ -578,20 +578,28 @@ Predictive-IT-Infrastructure-Analytics/
 │
 ├── src/                                  # Módulos fuente Python
 │   ├── __init__.py
-│   ├── cabecera.py                       # Cabecera de la app
-│   ├── comparacion_modelos.py            # Comparación de modelos
-│   ├── conclusiones.py                   # Textos de conclusiones
-│   ├── datos.py                          # Carga y validación de datos
-│   ├── detectores.py                     # Detección de columnas
-│   ├── estado_infraestructura.py         # Estado de infraestructura
-│   ├── estilos.py                        # Estilos CSS personalizados
-│   ├── generar_presentacion.py           # Sidebar de exportación PDF
-│   ├── metricas.py                       # Métricas del modelo
-│   ├── plantilla.py                      # Configuración de página
-│   ├── predicciones.py                   # Vista de predicciones
-│   ├── presentacion.py                   # Generación de PDF
-│   ├── resumen_ejecutivo.py              # KPIs y resumen
-│   └── sidebar.py                        # Navegación lateral
+│   ├── ui/                               # Componentes de interfaz
+│   │   ├── __init__.py
+│   │   ├── cabecera.py                   # Cabecera de la app
+│   │   ├── estilos.py                    # Estilos CSS personalizados
+│   │   ├── plantilla.py                  # Configuración de página
+│   │   └── sidebar.py                    # Navegación lateral
+│   ├── pages/                            # Páginas del dashboard
+│   │   ├── __init__.py
+│   │   ├── resumen_ejecutivo.py          # KPIs y resumen
+│   │   ├── estado_infraestructura.py     # Estado de infraestructura
+│   │   ├── comparacion_modelos.py        # Comparación de modelos
+│   │   └── predicciones.py               # Vista de predicciones
+│   ├── core/                             # Lógica de negocio y datos
+│   │   ├── __init__.py
+│   │   ├── datos.py                      # Carga y validación de datos
+│   │   ├── detectores.py                 # Detección de columnas
+│   │   ├── metricas.py                   # Métricas del modelo
+│   │   └── conclusiones.py               # Textos de conclusiones
+│   └── export/                           # Generación de reportes PDF
+│       ├── __init__.py
+│       ├── presentacion.py               # Generación de PDF
+│       └── generar_presentacion.py       # Sidebar de exportación PDF
 │
 ├── tests/                                # Tests unitarios (pytest)
 │   ├── test_detectores.py                # Tests de detección de columnas
