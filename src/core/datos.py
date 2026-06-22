@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def carga_datos():
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
     FINAL_DIR = PROJECT_ROOT / "data" / "final"
     PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 

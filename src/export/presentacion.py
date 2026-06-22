@@ -4,11 +4,11 @@ Generación de PDF del proyecto Predictive IT Infrastructure Analytics.
 import os
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import pandas as pd
-from src.conclusiones import TEXTOS_CONCLUSIONES
+from src.core.conclusiones import TEXTOS_CONCLUSIONES
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor
@@ -460,3 +460,4 @@ def generar_presentacion(output_path="Presentacion_Predictive_IT_Analytics.pdf")
 if __name__ == "__main__":
     ruta = generar_presentacion()
     print(f"PDF generado: {ruta}")
+
