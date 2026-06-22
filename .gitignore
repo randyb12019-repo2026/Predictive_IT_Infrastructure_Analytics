@@ -13,16 +13,8 @@ __pycache__/
 data/raw/*
 data/processed/*
 data/final/*
-data/raw/archive.zip
 reports/graphics/*
-
-# Mantener carpetas data
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/final/.gitkeep
-
-# Modelos
-#models/*.pkl
+data/processed/Big_data_dataset_transformado.csv
 
 # Variables de entorno
 .env
@@ -31,9 +23,6 @@ reports/graphics/*
 data/raw/*
 data/processed/*
 data/final/*
-
-# Archivos de configuración
-src/*
 
 # Mantener carpetas reportes
 !reports/.gitkeep
