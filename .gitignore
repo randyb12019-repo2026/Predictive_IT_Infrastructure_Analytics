@@ -11,10 +11,10 @@ __pycache__/
 
 # Datos pesados o privados
 data/raw/Big_data_dataset.csv
-data/final/comparacion_modelos.csv
-data/final/predicciones_random_forest.csv
-data/final/incidencias_detectadas_random_forest.csv
-data/processed/Big_data_dataset_transformado.csv
+# data/final/comparacion_modelos.csv
+# data/final/predicciones_random_forest.csv
+# data/final/incidencias_detectadas_random_forest.csv
+# data/processed/Big_data_dataset_transformado.csv
 reports/graphics/*
 
 
