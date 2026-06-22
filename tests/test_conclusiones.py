@@ -1,4 +1,4 @@
-from src.conclusiones import TEXTOS_CONCLUSIONES
+from src.core.conclusiones import TEXTOS_CONCLUSIONES
 
 
 def test_textos_conclusiones_no_vacio():
