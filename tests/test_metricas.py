@@ -1,5 +1,5 @@
 import pandas as pd
-from src.metricas import obtener_media, obtener_metricas
+from src.core.metricas import obtener_media, obtener_metricas
 
 
 def test_obtener_media_columna_existente():

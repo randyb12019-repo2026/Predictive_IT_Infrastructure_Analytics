@@ -1,17 +1,17 @@
 """Módulo que importa todas las funciones desde src/ para mantener
 la interfaz pública en dashboard.dashboard."""
 import streamlit as st
-from src.estilos import estilos
-from src.datos import carga_datos, validar_datos
-from src.detectores import detectar_columna_prediccion, detectar_columna_modelo, detectar_columna_f1
-from src.metricas import obtener_media, obtener_metricas
-from src.sidebar import sidebar
-from src.cabecera import cabecera
-from src.resumen_ejecutivo import resumen_ejecutivo
-from src.estado_infraestructura import estado_infraestructura
-from src.comparacion_modelos import comparacion_modelos
-from src.predicciones import predicciones as mostrar_predicciones
-from src.conclusiones import conclusiones
+from src.ui.estilos import estilos
+from src.core.datos import carga_datos, validar_datos
+from src.core.detectores import detectar_columna_prediccion, detectar_columna_modelo, detectar_columna_f1
+from src.core.metricas import obtener_media, obtener_metricas
+from src.ui.sidebar import sidebar
+from src.ui.cabecera import cabecera
+from src.pages.resumen_ejecutivo import resumen_ejecutivo
+from src.pages.estado_infraestructura import estado_infraestructura
+from src.pages.comparacion_modelos import comparacion_modelos
+from src.pages.predicciones import predicciones as mostrar_predicciones
+from src.core.conclusiones import conclusiones
 
 def mostrar_dashboard():
     estilos()

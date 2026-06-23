@@ -1,5 +1,5 @@
 import pandas as pd
-from src.detectores import detectar_columna_prediccion, detectar_columna_modelo, detectar_columna_f1
+from src.core.detectores import detectar_columna_prediccion, detectar_columna_modelo, detectar_columna_f1
 
 
 def test_detectar_columna_prediccion_prediccion():
