@@ -366,22 +366,22 @@ def _slide_08_rf(c):
     y_ley = PAGE_H - 4.0 * inch
     y_ley = _draw_text(c, "Leyenda:", MARGIN, y_ley, 14, GRIS, True) - 0.15 * inch
     y_ley = _draw_text(c, "VN = Real: Normal, Predicho: Normal (acierto)",
-                       MARGIN, y_ley, 10, VERDE, max_width=3.3 * inch) - 0.05 * inch
+                       MARGIN, y_ley, 11, VERDE, max_width=3.8 * inch) - 0.05 * inch
     y_ley = _draw_text(c, "VP = Real: Incidente, Predicho: Incidente (acierto)",
-                       MARGIN, y_ley, 10, VERDE, max_width=3.3 * inch) - 0.05 * inch
+                       MARGIN, y_ley, 11, VERDE, max_width=3.8 * inch) - 0.05 * inch
     y_ley = _draw_text(c, "FN = Real: Incidente, Predicho: Normal (error - falso negativo)",
-                       MARGIN, y_ley, 10, ROJO, max_width=3.3 * inch) - 0.05 * inch
+                       MARGIN, y_ley, 11, ROJO, max_width=3.8 * inch) - 0.05 * inch
     y_ley = _draw_text(c, "FP = Real: Normal, Predicho: Incidente (error - falso positivo)",
-                       MARGIN, y_ley, 10, ROJO, max_width=3.3 * inch) - 0.05 * inch
+                       MARGIN, y_ley, 11, ROJO, max_width=3.8 * inch) - 0.05 * inch
 
-    _draw_text(c, "Interpretacion:", MARGIN + 4.5 * inch, PAGE_H - 4.0 * inch,
+    _draw_text(c, "Interpretacion:", MARGIN + 4.8 * inch, PAGE_H - 4.0 * inch,
                 16, AZUL_CLARO, True)
     _draw_bullets(c, [
         "Detecto 18 de 19 incidentes reales (Recall = 95 %)",
         "Cero falsos positivos (Precision = 100 %)",
         "Solo 1 incidente no detectado (falso negativo)",
         "F1-Score = 0.97 - excelente equilibrio",
-    ], MARGIN + 4.5 * inch, PAGE_H - 4.5 * inch, 14, BLANCO, 3.5 * inch)
+    ], MARGIN + 4.8 * inch, PAGE_H - 4.5 * inch, 14, BLANCO, 3.2 * inch)
     _draw_footer(c)
 
 
