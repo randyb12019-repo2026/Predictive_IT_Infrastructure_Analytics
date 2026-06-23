@@ -302,7 +302,7 @@ def _slide_06_feature_eng(c):
     _draw_bg(c)
     _draw_title(c, "Feature Engineering", PAGE_H - 1.0 * inch)
     _draw_bullets(c, [
-        "Categorias: cpu_level, memory_level, latency_level, temperature_level",
+        "Categorizacion: CPU, memoria, latencia, temperatura",
         "Normalizacion Min-Max: 5 variables principales",
         "Indicador compuesto: system_pressure_score",
         "Clasificacion: pressure_level (Low/Medium/High)",
