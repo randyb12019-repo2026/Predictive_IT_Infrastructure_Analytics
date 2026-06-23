@@ -108,7 +108,7 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     df_barras["Color"] = df_barras["Nivel"].map(color_map)
     fig = px.bar(df_barras, x="Métrica", y="Valor", color="Nivel",
                  color_discrete_map=color_map, text_auto=".1f",
-                 title="📊 Métricas del sistema por nivel de alerta")
+                 title="🏆 Métricas del sistema por nivel de alerta")
     fig.update_layout(template="plotly_dark", paper_bgcolor="#111827", plot_bgcolor="#111827",
                       showlegend=True, xaxis_title="", yaxis_title="Valor promedio")
     fig.update_traces(textposition="outside", marker_line_width=0)
@@ -126,7 +126,7 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     <div><b>✅ Registros Normales</b> → Operación normal</div>
     <div><b>🚨 Incidentes Detectados</b> → Posible incidente</div>
     <div><b>📉 % de Incidentes</b> → % sobre el total</div>
-    <div><b>🤖 Mejor Modelo</b> → Mayor F1-Score</div>
+    <div><b>🏆 Mayor F1-Score</b></div>
     <div><b>📈 F1-Score</b> → Precisión + Recall</div>
     <div><b>⚙️ CPU Media</b> → Promedio de CPU</div>
     <div><b>💾 Memoria Media</b> → Promedio de memoria</div>
