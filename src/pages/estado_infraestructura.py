@@ -137,7 +137,7 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     st.markdown("### 🔗 Matriz de correlaciones")
     corr_cols = [c for c in metricas_disponibles
                  if not c.endswith("_level") and not c.endswith("_norm")
-                 and c != "status" and c != "status_label"]
+                 and c != "status_label"]
     if len(corr_cols) > 1:
         corr_matrix = datos_infra[corr_cols].corr()
         fig_corr = px.imshow(
