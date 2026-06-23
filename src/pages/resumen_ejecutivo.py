@@ -6,7 +6,7 @@ import plotly.express as px
 def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_modelo,
                       cpu_media, memoria_media, temperatura_media, latencia_media,
                       cpu_nivel=None, memoria_nivel=None, temperatura_nivel=None,
-                      latencia_nivel=None):
+                      latencia_nivel=None, total_datos=None, total_incidentes_reales=None):
     if seccion != "Resumen Ejecutivo":
         return
 
@@ -25,9 +25,18 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
         normales = int((predicciones[col_pred] == 0).sum())
         porcentaje_incidentes = round((incidentes / total_registros) * 100, 2)
         incidentes_df = predicciones[predicciones[col_pred] == 1]
+        cols_reales = ["Valor_Real", "valor_real", "Real", "real", "y_test", "y_real"]
+        col_real = next((c for c in predicciones.columns if c in cols_reales), None)
+        if col_real:
+            falsos_negativos = int(((predicciones[col_pred] == 0) & (predicciones[col_real] == 1)).sum())
+            falsos_positivos = int(((predicciones[col_pred] == 1) & (predicciones[col_real] == 0)).sum())
+        else:
+            falsos_negativos = falsos_positivos = "N/D"
     else:
         incidentes = normales = porcentaje_incidentes = "N/D"
         incidentes_df = pd.DataFrame()
+        falsos_negativos = falsos_positivos = "N/D"
+        col_real = None
 
     if col_f1:
         mejor_modelo = comparacion.loc[comparacion[col_f1].idxmax()]
@@ -37,27 +46,39 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
         nombre_modelo = f1_score = "N/D"
 
     st.markdown("### 🔑 KPIs principales")
+
+    st.markdown("**📊 Datos evaluados**")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🖥️ Registros Analizados", total_registros)
     col2.metric("✅ Registros Normales", normales)
     col3.metric("🚨 Incidentes Detectados", incidentes)
     col4.metric("📉 % de Incidentes", f"{porcentaje_incidentes}%")
 
-    niveles_emoji = {
-        "Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
-        "Warning": "⚠️ Advertencia", "Critical": "🔴 Crítico",
-        "Normal": "✅ Normal", "Incident": "🚨 Incidente",
-    }
-
+    st.markdown("**🤖 Rendimiento del modelo**")
     col5, col6, col7, col8 = st.columns(4)
-    col5.metric("🤖 Mejor Modelo", nombre_modelo)
+    col5.metric("🏆 Mejor Modelo", nombre_modelo)
     col6.metric("📈 F1-Score", f1_score)
-    col7.metric("⚙️ CPU Media", cpu_media)
-    col8.metric("💾 Memoria Media", memoria_media)
+    if col_pred and col_real and falsos_negativos != "N/D":
+        col7.metric("✅ Aciertos", total_registros - falsos_negativos - falsos_positivos)
+        col8.metric("🚫 No detectados", falsos_negativos,
+                    help="Falsos negativos: el modelo predijo Normal pero realmente era Incidente")
+    else:
+        col7.metric("⚙️ CPU Media", cpu_media)
+        col8.metric("💾 Memoria Media", memoria_media)
 
-    col9, col10 = st.columns(2)
-    col9.metric("🔥 Temperatura Media", temperatura_media)
-    col10.metric("🌐 Latencia Media", latencia_media)
+    st.markdown("**⚙️ Métricas del sistema**")
+    col9, col10, col11, col12 = st.columns(4)
+    col9.metric("⚙️ CPU Media", cpu_media)
+    col10.metric("💾 Memoria Media", memoria_media)
+    col11.metric("🔥 Temperatura Media", temperatura_media)
+    col12.metric("🌐 Latencia Media", latencia_media)
+
+    if total_datos and total_incidentes_reales is not None:
+        st.markdown("**📋 Contexto del dataset original**")
+        ctx1, ctx2 = st.columns(2)
+        ctx1.metric("📦 Total registros originales", total_datos)
+        ctx2.metric("🚨 Incidentes reales en datos completos",
+                    f"{total_incidentes_reales} ({round(total_incidentes_reales / total_datos * 100, 2)}%)")
 
     niveles_orden = {"Low": 0, "Medium": 1, "High": 2, "Warning": 2, "Critical": 3, "Normal": 0, "Incident": 3}
     niveles_etiqueta = {"Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
@@ -149,7 +170,55 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
     • <b>F1-Score</b> — Media armónica entre Precision y Recall. Es la métrica principal
     porque equilibra ambas. Un F1 cercano a <b>1.0</b> indica detección precisa sin falsas alarmas.
     </div>
+    <br>
+    <div class="info-box">
+    <b>🎯 Interpretación respecto a la variable objetivo</b><br>
+    La variable objetivo es <b>status</b> (0 = Normal, 1 = Incidente). Las métricas están
+    calculadas sobre la clase <b>Incidente (1)</b>, que es la que realmente importa detectar.<br><br>
+    • Un <b>Accuracy</b> alto no basta: aunque un modelo acierte el 99 %,
+    podría estar fallando justo en los incidentes (clase minoritaria).<br>
+    • <b>Precision</b> mide cuántas alertas del modelo fueron incidentes reales.
+    Una precisión baja = muchas falsas alarmas que saturan al equipo IT.<br>
+    • <b>Recall</b> mide cuántos incidentes reales logró capturar el modelo.
+    Un recall bajo = incidentes que pasan desapercibidos.<br>
+    • <b>F1-Score</b> combina ambos. Es la métrica más fiable cuando hay desbalance
+    de clases (99 % Normal vs 1 % Incidente).<br><br>
+    <b>Ejemplo con Random Forest:</b> Precision = 1,0000 (sin falsas alarmas),
+    Recall = 0,9474 (detectó 18 de 19 incidentes reales), F1 = 0,9730.
+    </div>
     """, unsafe_allow_html=True)
+
+    if col_pred and col_real and falsos_negativos != "N/D" and (falsos_negativos > 0 or falsos_positivos > 0):
+        st.subheader("⚠️ Errores del modelo")
+        errores_df = predicciones[
+            ((predicciones[col_pred] == 0) & (predicciones[col_real] == 1)) |
+            ((predicciones[col_pred] == 1) & (predicciones[col_real] == 0))
+        ].copy()
+        if len(errores_df) > 0:
+            cols_mostrar_err = ["cpu_utilization", "memory_usage", "temperature", "network_latency"]
+            cols_mostrar_err = cols_mostrar_err + [col_real, col_pred]
+            cols_mostrar_err = [c for c in cols_mostrar_err if c in errores_df.columns]
+            if cols_mostrar_err:
+                df_err = errores_df[cols_mostrar_err].head(10).copy()
+                df_err.columns = ["CPU (%)", "Memoria (%)", "Temperatura (°C)", "Latencia (ms)",
+                                  "Estado Real", "Predicción"]
+                df_err["Estado Real"] = df_err["Estado Real"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
+                df_err["Predicción"] = df_err["Predicción"].replace({0: "✅ Normal", 1: "🚨 Incidente"})
+                df_err.insert(0, "Tipo Error",
+                              df_err.apply(lambda r: "🚫 No detectado" if r["Estado Real"] == "🚨 Incidente"
+                                           else "⚠️ Falsa alarma", axis=1))
+                st.dataframe(df_err, width='stretch')
+                st.markdown(f"""
+                <div class="info-box">
+                <b>🔍 Interpretación</b><br>
+                • <b>🚫 No detectado</b> — El modelo predijo Normal pero realmente era Incidente
+                ({falsos_negativos} caso{"s" if falsos_negativos != 1 else ""}).<br>
+                • <b>⚠️ Falsa alarma</b> — El modelo predijo Incidente pero realmente era Normal
+                ({falsos_positivos} caso{"s" if falsos_positivos != 1 else ""}).<br><br>
+                Estos errores ayudan a identificar las condiciones límite donde el modelo falla
+                y orientan posibles mejoras (más datos, nuevos features, ajuste de umbrales).
+                </div>
+                """, unsafe_allow_html=True)
 
     st.subheader("🚨 Incidentes detectados por el modelo")
     if len(incidentes_df) > 0:
