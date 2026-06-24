@@ -133,9 +133,40 @@ def resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_
         """, unsafe_allow_html=True)
 
     st.subheader("🤖 Comparación de modelos")
+    st.markdown("""
+    <style>
+    .info-box {
+        background:#0f172a; padding:10px 15px; border-radius:8px; font-size:13px;
+        border-left:3px solid #2E86C1; margin:8px 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+    <div class="info-box">
+    <b>📖 Significado de las métricas</b><br>
+    • <b>Accuracy</b> — Porcentaje total de aciertos del modelo.<br>
+    • <b>Precision</b> — De lo que predijo como incidente, cuántos realmente lo eran.<br>
+    • <b>Recall</b> — De los incidentes reales, cuántos logró detectar el modelo.<br>
+    • <b>F1-Score</b> — Media armónica entre Precision y Recall. Es la métrica principal
+    porque equilibra ambas. Un F1 cercano a <b>1.0</b> indica detección precisa sin falsas alarmas.
+    </div>
+    """, unsafe_allow_html=True)
     st.dataframe(comparacion, width='stretch')
 
     st.subheader("🚨 Incidentes detectados por el modelo")
+    st.markdown("""
+    <div class="info-box">
+    <b>🔍 Cómo leer esta tabla</b><br>
+    Muestra los registros que el modelo clasificó como posible incidente,
+    junto con las métricas del sistema en ese momento.<br><br>
+    • <b>CPU / Memoria / Temperatura / Latencia</b> — Valores del sistema en el instante evaluado.<br>
+    • <b>Estado Real</b> — Lo que realmente ocurrió (etiqueta real del dataset).<br>
+    • <b>Predicción</b> — Lo que el modelo pronosticó.<br><br>
+    Presta atención cuando <b>Estado Real</b> y <b>Predicción</b> no coinciden:
+    ahí hay falsos positivos (alarma sin incidente real) o falsos negativos
+    (incidente no detectado).
+    </div>
+    """, unsafe_allow_html=True)
     if len(incidentes_df) > 0:
         cols_mostrar = ["cpu_utilization", "memory_usage", "temperature", "network_latency"]
         cols_reales = ["Valor_Real", "valor_real", "Real", "real", "y_test", "y_real"]
