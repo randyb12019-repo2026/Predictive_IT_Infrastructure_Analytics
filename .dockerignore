@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.gitkeep
+README.md
+notebooks/
+tests/
+.dockerignore
+Dockerfile
+requirements-dev.txt
+Presentacion_Predictive_IT_Analytics.pdf
