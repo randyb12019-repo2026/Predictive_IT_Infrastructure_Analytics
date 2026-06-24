@@ -33,6 +33,20 @@ def mostrar_dashboard():
     temperatura_media, _ = obtener_media(datos_infra_filt, ["temperature", "temperature_norm", "temperature_level"])
     latencia_media, _ = obtener_media(datos_infra_filt, ["network_latency", "network_latency_norm"])
 
+    def _nivel_por_valor(metrica_col, nivel_col, valor):
+        if valor == "N/D" or nivel_col not in datos_infra_filt.columns:
+            return None
+        grupos = datos_infra_filt.groupby(nivel_col)[metrica_col].agg(["min", "max"])
+        for nivel, row in grupos.iterrows():
+            if row["min"] <= valor <= row["max"]:
+                return str(nivel)
+        return None
+
+    cpu_nivel = _nivel_por_valor("cpu_utilization", "cpu_level", cpu_media)
+    memoria_nivel = _nivel_por_valor("memory_usage", "memory_level", memoria_media)
+    temperatura_nivel = _nivel_por_valor("temperature", "temperature_level", temperatura_media)
+    latencia_nivel = _nivel_por_valor("network_latency", "latency_level", latencia_media)
+
     metricas_preferidas = [
         "cpu_utilization", "memory_usage", "temperature", "network_latency",
         "disk_io", "power_consumption", "cpu_utilization_norm", "memory_usage_norm",
@@ -43,7 +57,8 @@ def mostrar_dashboard():
     cabecera()
 
     resumen_ejecutivo(seccion, predicciones, comparacion, col_pred, col_f1, col_modelo,
-                      cpu_media, memoria_media, temperatura_media, latencia_media)
+                      cpu_media, memoria_media, temperatura_media, latencia_media,
+                      cpu_nivel, memoria_nivel, temperatura_nivel, latencia_nivel)
     estado_infraestructura(seccion, datos_infra_filt, metricas_disponibles)
     comparacion_modelos(seccion, comparacion, col_modelo, col_f1)
     mostrar_predicciones(seccion, predicciones, col_pred)
