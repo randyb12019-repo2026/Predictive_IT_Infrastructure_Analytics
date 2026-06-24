@@ -6,6 +6,73 @@ Proyecto de análisis de datos y aprendizaje automático orientado a la identifi
 
 ---
 
+# ⚙️ Instalación
+
+## Requisitos
+
+* Python 3.10+
+* pip
+
+## Pasos
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/randyb12019-repo2026/Predictive-IT-Infrastructure-Analytics.git
+cd Predictive-IT-Infrastructure-Analytics
+
+# 2. Crear y activar entorno virtual
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# Linux/Mac:
+# source .venv/bin/activate
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. (Opcional) Instalar dependencias de desarrollo
+pip install -r requirements-dev.txt
+
+# 5. Descargar el dataset desde Kaggle y colocarlo en:
+#    data/raw/Big_data_dataset.csv
+#    Fuente: https://www.kaggle.com/datasets/freshersstaff/it-system-performance-and-resource-metrics
+
+# 6. Ejecutar los notebooks en orden:
+#    notebooks/01_exploracion_y_limpieza_dataset.ipynb
+#    notebooks/02_transformacion_y_feature_engineering.ipynb
+#    notebooks/03_analisis_exploratorio_EDA.ipynb
+#    notebooks/04_modelo_predictivo.ipynb
+#    notebooks/05_exportacion_resultados.ipynb
+
+# 7. Lanzar el dashboard
+streamlit run app/streamlit_app.py
+
+# 8. (Opcional) Ejecutar tests
+.venv\Scripts\python.exe -m pytest tests/ -v
+```
+
+## Con Docker
+
+### Requisito
+
+* Docker instalado ([descargar aquí](https://www.docker.com/products/docker-desktop/))
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/randyb12019-repo2026/Predictive-IT-Infrastructure-Analytics.git
+cd Predictive-IT-Infrastructure-Analytics
+
+# 2. Construir la imagen
+docker build -t predictive-it .
+
+# 3. Ejecutar el contenedor
+docker run -p 8501:8501 predictive-it
+```
+
+Luego abrir `http://localhost:8501` en el navegador.
+
+---
+
 # 📌 Descripción del Proyecto
 
 Las infraestructuras informáticas modernas generan continuamente métricas relacionadas con el uso de recursos, rendimiento y estabilidad operativa.
@@ -37,6 +104,8 @@ La pregunta principal que intenta responder este proyecto es:
 ## Fuente
 
 Dataset: **IT System Performance & Resource Metrics**
+
+Enlace: [https://www.kaggle.com/datasets/freshersstaff/it-system-performance-and-resource-metrics](https://www.kaggle.com/datasets/freshersstaff/it-system-performance-and-resource-metrics)
 
 ## Características
 
@@ -326,9 +395,9 @@ Modelo base para clasificación binaria.
 
 Modelo basado en árboles de decisión.
 
-#### XGBoost
+#### Red Neuronal MLP
 
-Modelo avanzado de Gradient Boosting.
+Red neuronal multicapa con 2 capas ocultas (32 y 16 neuronas).
 
 ---
 
@@ -340,12 +409,10 @@ Modelo avanzado de Gradient Boosting.
 * Precision
 * Recall
 * F1 Score
-* ROC-AUC
 
 ### Visualizaciones
 
 * Matriz de Confusión
-* Curva ROC
 * Importancia de Variables
 
 ---
@@ -420,7 +487,26 @@ La combinación de múltiples métricas ofrece mejores resultados que el anális
 ## Machine Learning
 
 * Scikit-Learn
-* XGBoost
+
+## Testing
+
+* pytest
+
+### 🧪 Sobre los tests
+
+El proyecto incluye **tests unitarios** con pytest para verificar que las funciones clave del código se comportan correctamente. No dependen de Streamlit ni de archivos externos (CSV, modelos), por lo que se ejecutan de forma rápida y aislada.
+
+**¿Qué cubren?**
+
+| Archivo | Propósito |
+|---|---|
+| `tests/test_detectores.py` | Verifica que la detección automática de columnas (predicción, modelo, F1) funcione con distintos nombres posibles |
+| `tests/test_metricas.py` | Verifica que `obtener_media()` y `obtener_metricas()` devuelvan resultados correctos con distintos tipos de DataFrame |
+| `tests/test_conclusiones.py` | Verifica que los textos de conclusiones existan y tengan la estructura esperada |
+
+**¿Por qué son útiles?**
+
+Si modificas el código y sin querer rompes algo (ej: `obtener_media()` empieza a devolver la suma en vez del promedio), los tests fallarán y te avisarán al instante en lugar de descubrirlo al ejecutar la app. Son una red de seguridad para mantener el proyecto a largo plazo.
 
 ## Entorno de Desarrollo
 
@@ -505,9 +591,15 @@ Predictive-IT-Infrastructure-Analytics/
 │   ├── resumen_ejecutivo.py              # KPIs y resumen
 │   └── sidebar.py                        # Navegación lateral
 │
+├── tests/                                # Tests unitarios (pytest)
+│   ├── test_detectores.py                # Tests de detección de columnas
+│   ├── test_metricas.py                  # Tests de funciones de métricas
+│   └── test_conclusiones.py              # Tests de textos de conclusiones
+│
 ├── LICENCE.md                           # Licencia MIT
 ├── README.md                            # Este archivo
-└── requirements.txt                     # Dependencias del proyecto
+├── requirements.txt                     # Dependencias del proyecto
+└── requirements-dev.txt                 # Dependencias de desarrollo (pytest)
 ```
 ---
 ## 📚 Correspondencia entre Fases y Notebooks
@@ -576,3 +668,9 @@ Proyecto desarrollado como trabajo final del Bootcamp de Data Analytics e Inteli
 **Autor:** Randy Bonucci Martín
 
 **Especialización:** Data Analytics, Infraestructuras IT y Machine Learning.
+
+---
+
+# 📄 Licencia
+
+Este proyecto está bajo la licencia **MIT**. Consulta el archivo `LICENCE.md` para más detalles.
