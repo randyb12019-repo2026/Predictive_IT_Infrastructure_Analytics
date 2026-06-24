@@ -63,10 +63,10 @@ git clone https://github.com/randyb12019-repo2026/Predictive-IT-Infrastructure-A
 cd Predictive-IT-Infrastructure-Analytics
 
 # 2. Construir la imagen
-docker build -t predictive-it .
+docker build -t predictive-it-analytics .
 
 # 3. Ejecutar el contenedor
-docker run -p 8501:8501 predictive-it
+docker run -p 8501:8501 predictive-it-analytics
 ```
 
 Luego abrir `http://localhost:8501` en el navegador.
