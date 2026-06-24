@@ -200,6 +200,10 @@ def _slide_01_portada(c):
     c.setFont("Helvetica", 12)
     c.drawCentredString(PAGE_W / 2, PAGE_H - 6.3 * inch,
                         "Autor: Ing. Randy Bonucci Martin")
+    c.setFillColor(GRIS)
+    c.setFont("Helvetica", 9)
+    c.drawCentredString(PAGE_W / 2, PAGE_H - 6.7 * inch,
+                        "Licencia: MIT — Codigo abierto y redistribuible")
     _draw_footer(c)
 
 
