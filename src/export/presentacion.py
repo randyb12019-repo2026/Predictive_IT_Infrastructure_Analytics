@@ -54,26 +54,27 @@ def _draw_title(c, text, y, size=28, color=BLANCO):
 def _draw_text(c, text, x, y, size=16, color=BLANCO, bold=False, max_width=None, leading=None):
     c.setFillColor(color)
     c.setFont("Helvetica-Bold" if bold else "Helvetica", size)
-    if max_width:
-        # Simple word wrap
-        words = text.split(" ")
-        line = ""
-        line_y = y
-        lh = leading or (size * 1.4)
-        for w in words:
-            test = f"{line} {w}".strip()
-            if c.stringWidth(test, "Helvetica-Bold" if bold else "Helvetica", size) > max_width:
-                c.drawString(x, line_y, line)
-                line_y -= lh
-                line = w
-            else:
-                line = test
-        if line:
-            c.drawString(x, line_y, line)
-        return line_y - lh
-    else:
-        c.drawString(x, y, text)
-        return y
+    lh = leading or (size * 1.4)
+    cy = y
+    for paragraph in text.split("\n"):
+        if max_width:
+            words = paragraph.split(" ")
+            line = ""
+            for w in words:
+                test = f"{line} {w}".strip()
+                if c.stringWidth(test, "Helvetica-Bold" if bold else "Helvetica", size) > max_width:
+                    c.drawString(x, cy, line)
+                    cy -= lh
+                    line = w
+                else:
+                    line = test
+            if line:
+                c.drawString(x, cy, line)
+                cy -= lh
+        else:
+            c.drawString(x, cy, paragraph)
+            cy -= lh
+    return cy
 
 
 def _draw_bullets(c, items, x, y, size=14, color=BLANCO, max_width=None):
@@ -268,8 +269,7 @@ def _slide_04_eda(c):
     ], MARGIN, PAGE_H - 2.5 * inch, [3.0 * inch, 2.0 * inch])
     _draw_bullets(c, [
         "Las variables mas relevantes: CPU, memoria y temperatura",
-        "El indicador compuesto system_pressure_score supera",
-        "  a cualquier variable individual",
+        "El indicador compuesto system_pressure_score supera a cualquier variable individual",
         "Baja multicolinealidad entre variables -> favorable para modelado",
     ], MARGIN, PAGE_H - 5.2 * inch, 14, BLANCO, CONTENT_W)
     _draw_footer(c)
