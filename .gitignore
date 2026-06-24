@@ -10,19 +10,20 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Datos pesados o privados
-data/raw/*
-data/processed/*
-data/final/*
-reports/graphics/*
+data/raw/Big_data_dataset.csv
+data/final/comparacion_modelos.csv
+data/final/predicciones_random_forest.csv
 data/processed/Big_data_dataset_transformado.csv
+reports/graphics/*
+
 
 # Variables de entorno
 .env
 
-# Ignorar datos
-data/raw/*
-data/processed/*
-data/final/*
-
 # Mantener carpetas reportes
 !reports/.gitkeep
+
+# Mantener carpetas y ficheros de informacion
+!data/final/.gitkeep
+!data/processed/.gitkeep
+!data/raw/.gitkeep
