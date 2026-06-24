@@ -343,7 +343,7 @@ def _slide_07_modelos(c):
         df_comp = pd.read_csv(csv_path)
         cols = ["Modelo", "Accuracy", "Precision", "Recall", "F1-Score"]
         cols_existentes = [c for c in cols if c in df_comp.columns]
-        filas = [[c] + [f"{round(row[c], 2):.2f}" if isinstance(row[c], (int, float)) else str(row[c]) for c in cols_existentes[1:]] for _, row in df_comp.iterrows()]
+        filas = [[row[cols_existentes[0]]] + [f"{round(row[c2], 2):.2f}" if isinstance(row[c2], (int, float)) else str(row[c2]) for c2 in cols_existentes[1:]] for _, row in df_comp.iterrows()]
         tabla = [cols_existentes] + filas
     else:
         tabla = [["Modelo", "Accuracy", "Precision", "Recall", "F1-Score"]]
