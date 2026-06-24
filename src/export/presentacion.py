@@ -335,6 +335,7 @@ def _slide_07_modelos(c):
         "Regresion Logistica   -> modelo base, interpretable",
         "Random Forest         -> 200 arboles, class_weight='balanced'",
         "Red Neuronal MLP      -> 2 capas ocultas (32, 16), escalado previo",
+        "Stack tecnologico      -> Python (scikit-learn) + Streamlit",
     ], MARGIN, PAGE_H - 2.0 * inch, 14, BLANCO, CONTENT_W)
     _draw_text(c, "Metricas de evaluacion (clase Incidente):",
                MARGIN, PAGE_H - 3.5 * inch, 16, AZUL_CLARO, True)
