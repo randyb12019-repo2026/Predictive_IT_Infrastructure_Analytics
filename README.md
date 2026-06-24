@@ -543,7 +543,7 @@ Predictive-IT-Infrastructure-Analytics/
 │   │   └── informacion.md
 │   └── final/
 │       ├── comparacion_modelos.csv        # Comparación de modelos
-│       ├── incidencias_detectadas_random_forest.csv
+│       ├── incidencias_detectadas_random_forest.csv  # Incidencias detectadas por el modelo Random Forest
 │       ├── predicciones_random_forest.csv # Predicciones del modelo
 │       └── informacion.md
 │
