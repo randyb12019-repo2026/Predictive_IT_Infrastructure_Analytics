@@ -454,6 +454,9 @@ def generar_presentacion(output_path="Presentacion_Predictive_IT_Analytics.pdf")
     Crea y guarda el PDF del proyecto.
     """
     c = canvas.Canvas(output_path, pagesize=(PAGE_W, PAGE_H))
+    c.setTitle("Predictive IT Infrastructure Analytics - Deteccion temprana de incidentes")
+    c.setAuthor("Ing. Randy Bonucci Martin")
+    c.setSubject("Presentacion del proyecto Predictive IT Infrastructure Analytics")
     for drawer in SLIDE_DRAWERS:
         drawer(c)
         c.showPage()
