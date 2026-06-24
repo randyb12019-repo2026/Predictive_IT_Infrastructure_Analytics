@@ -52,7 +52,7 @@ def mostrar_dashboard():
         "cpu_utilization", "memory_usage", "temperature", "network_latency",
         "disk_io", "power_consumption", "cpu_utilization_norm", "memory_usage_norm",
         "temperature_norm", "network_latency_norm", "disk_io_norm",
-        "power_consumption_norm", "system_pressure_score"
+        "power_consumption_norm", "system_pressure_score", "status"
     ]
     metricas_disponibles = obtener_metricas(datos_infra_filt, metricas_preferidas)
     cabecera()
