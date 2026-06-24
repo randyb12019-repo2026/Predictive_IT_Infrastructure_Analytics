@@ -216,12 +216,17 @@ def _slide_02_problema(c):
         "Detectar fallos antes de que ocurran es critico para la disponibilidad del servicio",
         "El enfoque reactivo ya no es suficiente en entornos complejos",
     ], MARGIN, PAGE_H - 2.0 * inch, 14, BLANCO, CONTENT_W)
-    _draw_text(c, "Objetivo General:", MARGIN, PAGE_H - 3.8 * inch,
+    _draw_text(c, "Pregunta clave del proyecto:", MARGIN, PAGE_H - 3.3 * inch,
+               16, NARANJA, True)
+    _draw_text(c, "?Es posible detectar patrones de comportamiento en las metricas del sistema\n"
+                  "que permitan anticipar incidencias antes de que afecten al servicio?",
+               MARGIN, PAGE_H - 3.7 * inch, 13, BLANCO, max_width=CONTENT_W)
+    _draw_text(c, "Objetivo General:", MARGIN, PAGE_H - 4.6 * inch,
                18, AZUL_CLARO, True)
     _draw_text(c, "Desarrollar modelos predictivos que permitan la deteccion temprana\n"
                   "de incidentes a partir de metricas de rendimiento del sistema,\n"
                   "facilitando la monitorizacion proactiva y la reduccion de riesgos operativos.",
-               MARGIN, PAGE_H - 4.3 * inch, 14, BLANCO, max_width=CONTENT_W)
+               MARGIN, PAGE_H - 5.1 * inch, 14, BLANCO, max_width=CONTENT_W)
     _draw_footer(c)
 
 
