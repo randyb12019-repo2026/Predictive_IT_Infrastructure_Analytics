@@ -5,7 +5,10 @@ import os
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import pandas as pd
 from src.conclusiones import TEXTOS_CONCLUSIONES
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor
@@ -331,12 +334,16 @@ def _slide_07_modelos(c):
     ], MARGIN, PAGE_H - 2.0 * inch, 14, BLANCO, CONTENT_W)
     _draw_text(c, "Metricas de evaluacion (clase Incidente):",
                MARGIN, PAGE_H - 3.5 * inch, 16, AZUL_CLARO, True)
-    _draw_table(c, [
-        ["Modelo", "Accuracy", "Precision", "Recall", "F1-Score"],
-        ["Regresion Logistica", "0.97", "0.24", "1.00", "0.39"],
-        ["Random Forest",       "1.00", "1.00", "0.95", "0.97"],
-        ["Red Neuronal MLP",    "1.00", "0.81", "0.68", "0.74"],
-    ], MARGIN, PAGE_H - 4.2 * inch, [2.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch])
+    csv_path = PROJECT_ROOT / "data" / "final" / "comparacion_modelos.csv"
+    if csv_path.exists():
+        df_comp = pd.read_csv(csv_path)
+        cols = ["Modelo", "Accuracy", "Precision", "Recall", "F1-Score"]
+        cols_existentes = [c for c in cols if c in df_comp.columns]
+        filas = [[c] + [f"{round(row[c], 2):.2f}" if isinstance(row[c], (int, float)) else str(row[c]) for c in cols_existentes[1:]] for _, row in df_comp.iterrows()]
+        tabla = [cols_existentes] + filas
+    else:
+        tabla = [["Modelo", "Accuracy", "Precision", "Recall", "F1-Score"]]
+    _draw_table(c, tabla, MARGIN, PAGE_H - 4.2 * inch, [2.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch])
     _draw_footer(c)
 
 
