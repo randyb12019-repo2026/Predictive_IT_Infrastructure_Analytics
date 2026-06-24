@@ -12,9 +12,14 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
         st.warning("No se encontraron columnas numéricas en el dataset transformado.")
         return
 
+    metricas_analisis = [c for c in metricas_disponibles
+                         if not c.endswith("_norm") and not c.endswith("_level")]
+    if not metricas_analisis:
+        metricas_analisis = metricas_disponibles
+
     st.markdown("### 📌 Indicadores operativos")
-    cols = st.columns(min(len(metricas_disponibles), 4))
-    for i, metrica in enumerate(metricas_disponibles[:4]):
+    cols = st.columns(min(len(metricas_analisis), 4))
+    for i, metrica in enumerate(metricas_analisis[:4]):
         cols[i].metric(metrica.replace("_", " ").title(), round(datos_infra[metrica].mean(), 2))
 
     st.markdown("""
@@ -31,7 +36,7 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     """, unsafe_allow_html=True)
 
     st.markdown("### 📈 Distribución de métricas")
-    metrica_sel = st.selectbox("Selecciona una métrica para analizar:", metricas_disponibles)
+    metrica_sel = st.selectbox("Selecciona una métrica para analizar:", metricas_analisis)
 
     fig = px.histogram(
         datos_infra, x=metrica_sel, nbins=40,
@@ -42,7 +47,7 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("### 📊 Estadísticas descriptivas")
-    st.dataframe(datos_infra[metricas_disponibles].describe().T, use_container_width=True)
+    st.dataframe(datos_infra[metricas_analisis].describe().T, use_container_width=True)
 
     st.markdown("### 📖 Significado de las estadísticas")
     st.markdown("""
@@ -62,11 +67,10 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
     </div>
     <div style="background:#0f172a; padding:10px 15px; border-radius:8px; margin:10px 0; font-size:13px; border-left:3px solid #2E86C1;">
     <b>🧑‍💼 Ejemplo para un gerente:</b><br>
-    Si CPU tiene <b>mean=52%</b> y <b>max=99%</b>, en promedio el servidor opera al 52%,
-    pero en algún momento llegó al 99% (riesgo de saturación). Si el <b>std</b> es alto (ej. 25),
-    el rendimiento es <b>impredecible</b> — hay que revisar. Si el <b>75%</b> está en 74%,
-    1 de cada 4 mediciones supera el 74% de CPU, lo cual indica que el servidor está
-    cerca de sus límites con frecuencia.
+    <b>mean=52%</b> → el servidor usa 52% de CPU en promedio. <br>
+    <b>max=99%</b> → pero hubo un pico al 99% (riesgo de saturación). <br>
+    <b>std=25</b> → los valores varían mucho, el rendimiento es impredecible. <br>
+    <b>75%=74%</b> → el 25% del tiempo la CPU supera el 74%. Es decir, 1 de cada 4 mediciones está cerca del límite.
     </div>
     """, unsafe_allow_html=True)
 
@@ -87,9 +91,11 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
         "latency_level": "Nivel de latencia (Low/Medium/High)",
         "pressure_level": "Nivel de presión (Low/Medium/High)",
     }
-    for col, desc in leyenda.items():
-        if col in metricas_disponibles:
-            st.markdown(f"- **{col}**: {desc}")
+    items_visibles = [(col, desc) for col, desc in leyenda.items() if col in metricas_disponibles]
+    if items_visibles:
+        cols_var = st.columns(3)
+        for i, (col, desc) in enumerate(items_visibles):
+            cols_var[i % 3].markdown(f"**{col}**: {desc}")
 
     st.markdown("### 🚦 Umbrales de alerta por nivel")
     umbrales_map = {
@@ -112,22 +118,21 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
                     "Registros": int(row["count"]),
                 })
     if filas_umbrales:
-        cols_orden = ["Métrica", "Nivel", "Rango", "Promedio", "Registros"]
-        df_umbrales = pd.DataFrame(filas_umbrales)[cols_orden]
-        st.dataframe(df_umbrales, use_container_width=True)
+        orden_nivel = {"Critical": 0, "High": 1, "Warning": 2, "Medium": 3, "Low": 4, "Normal": 5, "Incident": 0}
         nombres_nivel = {"Low": "🟢 Bajo", "Medium": "🟡 Medio", "High": "🟠 Alto",
                          "Warning": "⚠️ Advertencia", "Critical": "🔴 Crítico",
                          "Normal": "✅ Normal", "Incident": "🚨 Incidente"}
-        resumen = df_umbrales.groupby("Métrica").apply(
-            lambda g: "\n".join(
-                f"{nombres_nivel.get(r['Nivel'], r['Nivel'])}: {r['Rango']}"
-                for _, r in g.iterrows()
-            )
-        )
-        for metrica, texto in resumen.items():
-            st.markdown(f"**{metrica}**")
-            for linea in texto.split("\n"):
-                st.markdown(f"- {linea}")
+        df_umbrales = pd.DataFrame(filas_umbrales)
+        df_umbrales["Orden"] = df_umbrales["Nivel"].map(orden_nivel)
+        df_umbrales = df_umbrales.sort_values(["Métrica", "Orden"])
+        metricas_unicas = df_umbrales["Métrica"].unique()
+        cols = st.columns(len(metricas_unicas))
+        for i, metrica in enumerate(metricas_unicas):
+            with cols[i]:
+                st.markdown(f"**{metrica}**")
+                sub = df_umbrales[df_umbrales["Métrica"] == metrica]
+                for _, row in sub.iterrows():
+                    st.markdown(f"{nombres_nivel.get(row['Nivel'], row['Nivel'])}: {row['Rango']}")
 
     st.markdown("### 🔗 Matriz de correlaciones")
     corr_cols = [c for c in metricas_disponibles
