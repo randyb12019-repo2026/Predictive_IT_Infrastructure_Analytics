@@ -73,7 +73,7 @@ def mostrar_dashboard():
         "<div style='text-align:center; font-size:13px; color:#6b7280;' "
         "title='Este proyecto se distribuye bajo licencia MIT. Consulte el archivo LICENCE.md para más detalles.'>"
         "<b>Predictive IT Infrastructure Analytics</b> | "
-        "Licencia MIT ⓘ | Desarrollado por Ing. Randy Bonucci Martin"
+        "Licencia MIT ⓘ | Desarrollado por Ing. Randy Bonucci"
         "</div>",
         unsafe_allow_html=True,
     )

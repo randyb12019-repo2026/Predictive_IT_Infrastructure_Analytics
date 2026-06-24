@@ -200,7 +200,7 @@ def _slide_01_portada(c):
     c.setFillColor(GRIS)
     c.setFont("Helvetica", 12)
     c.drawCentredString(PAGE_W / 2, PAGE_H - 6.3 * inch,
-                        "Autor: Ing. Randy Bonucci Martin")
+                        "Autor: Ing. Randy Bonucci")
     c.setFillColor(GRIS)
     c.setFont("Helvetica", 9)
     c.drawCentredString(PAGE_W / 2, PAGE_H - 6.7 * inch,
@@ -461,7 +461,7 @@ def generar_presentacion(output_path="Presentacion_Predictive_IT_Analytics.pdf")
     """
     c = canvas.Canvas(output_path, pagesize=(PAGE_W, PAGE_H))
     c.setTitle("Predictive IT Infrastructure Analytics - Deteccion temprana de incidentes")
-    c.setAuthor("Ing. Randy Bonucci Martin")
+    c.setAuthor("Ing. Randy Bonucci")
     c.setSubject("Presentacion del proyecto Predictive IT Infrastructure Analytics")
     for drawer in SLIDE_DRAWERS:
         drawer(c)
