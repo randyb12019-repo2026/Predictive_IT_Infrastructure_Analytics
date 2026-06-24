@@ -218,7 +218,7 @@ def _slide_02_problema(c):
     ], MARGIN, PAGE_H - 2.0 * inch, 14, BLANCO, CONTENT_W)
     _draw_text(c, "Pregunta clave del proyecto:", MARGIN, PAGE_H - 3.3 * inch,
                16, NARANJA, True)
-    _draw_text(c, "?Es posible detectar patrones de comportamiento en las metricas del sistema\n"
+    _draw_text(c, "\u00BFEs posible detectar patrones de comportamiento en las metricas del sistema\n"
                   "que permitan anticipar incidencias antes de que afecten al servicio?",
                MARGIN, PAGE_H - 3.7 * inch, 13, BLANCO, max_width=CONTENT_W)
     _draw_text(c, "Objetivo General:", MARGIN, PAGE_H - 4.6 * inch,
