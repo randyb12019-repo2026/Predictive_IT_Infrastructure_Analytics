@@ -90,6 +90,7 @@ def estado_infraestructura(seccion, datos_infra, metricas_disponibles):
         "temperature_level": "Nivel de temperatura (Normal/Warning/Critical)",
         "latency_level": "Nivel de latencia (Low/Medium/High)",
         "pressure_level": "Nivel de presión (Low/Medium/High)",
+        "status": "Estado del sistema (0 = Normal, 1 = Incidente)",
     }
     items_visibles = [(col, desc) for col, desc in leyenda.items() if col in metricas_disponibles]
     if items_visibles:
