@@ -23,7 +23,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 AZUL_OSCURO  = HexColor("#1B3A5C")
 AZUL_CLARO   = HexColor("#2E86C1")
 BLANCO       = HexColor("#FFFFFF")
-GRIS         = HexColor("#6C757D")
+GRIS         = HexColor("#D0D0D0")
 VERDE        = HexColor("#27AE60")
 ROJO         = HexColor("#E74C3C")
 NARANJA      = HexColor("#F39C12")
